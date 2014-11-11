@@ -20,7 +20,7 @@
   [title due]
   (println "Adding todo"))
 
-;;Create a page that lists out all our todos
+;; Create a page that lists out all our to-dos
 (defn index-page [arg]
   (println arg)
   (let [items all-todos]
