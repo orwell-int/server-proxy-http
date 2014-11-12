@@ -27,12 +27,18 @@
 
 ;; Welcome
 (defn -build-message-welcome [map]
-  (protobuf/protobuf proto-welcome
-                     :robot (map :robot)
-                     :team (map :team)
-                     :id   (map :id)
-                     :video_address (map :video-address)
-                     :video_port (map :video-port)))
+  (if (and (contains? map :robot)
+           (contains? map :team)
+           (contains? map :id)
+           (contains? map :video-address)
+           (contains? map :video-port))
+    (protobuf/protobuf proto-welcome
+                       :robot (map :robot)
+                       :team (map :team)
+                       :id   (map :id)
+                       :video-address (map :video-address)
+                       :video-port (map :video-port))
+    nil))
 
 
 ;; Just a simple router to create the different messages
