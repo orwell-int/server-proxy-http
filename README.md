@@ -1,4 +1,4 @@
-# server-proxy-web
+# Server Proxy HTTP.
 
 A proxy for Orwell's systems written in Clojure.
 

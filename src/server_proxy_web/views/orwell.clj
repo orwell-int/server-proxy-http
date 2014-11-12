@@ -1,30 +1,46 @@
 (ns server-proxy-web.views.orwell
-  (:use [hiccup.core :as hiccup]))
+  (:use [hiccup.core :as hiccup]
+        [flatland.protobuf.core :as protobuf]))
 
-;; Functions and variables
-(defn todo-item [{:keys [id title due]}]
-  (hiccup/html
-   [:li {:id id}
-    [:h3 title]
-    [:span.due due]]))
+(import orwell.messages.ServerGame$Welcome)
+(import orwell.messages.ServerGame$Goodbye)
+(import orwell.messages.Controller$Hello)
+(import orwell.messages.ServerGame$EnumTeam)
 
-(defn todos-list [items]
-  (hiccup/html
-   [:ul#todoItems (map todo-item items)]))
+;; Definition of the messages that will be used
+(def proto-hello (protobuf/protodef orwell.messages.Controller$Hello))
+(def proto-goodbye (protobuf/protodef orwell.messages.ServerGame$Goodbye))
+(def proto-welcome (protobuf/protodef orwell.messages.ServerGame$Welcome))
 
-(def all-todos
-  [{:id "Id" :title "Help" :due "Yoo"}
-   {:id "Other" :title "A title" :due "today"}])
 
-(defn add-todo
-  [title due]
-  (println "Adding todo"))
+;; Hello
+(defn -build-message-hello [map]
+  (if (contains? map :name)
+    (protobuf/protobuf proto-hello
+                       :name (map :name)
+                       :ready (map :ready))
+    nil))
 
-;; Create a page that lists out all our to-dos
-(defn index-page [arg]
-  (println arg)
-  (let [items all-todos]
-    (hiccup/html
-     [:head [:title "Orwell"]]
-     [:h1 "Todo list!"]
-     (todos-list items))))
+;; Goodbye
+(defn -build-message-goodbye [map]
+  (protobuf/protobuf proto-goodbye))
+
+;; Welcome
+(defn -build-message-welcome [map]
+  (protobuf/protobuf proto-welcome
+                     :robot (map :robot)
+                     :team (map :team)
+                     :id   (map :id)
+                     :video_address (map :video-address)
+                     :video_port (map :video-port)))
+
+
+;; Just a simple router to create the different messages
+(defn -message-builder [id params]
+  (cond [= id "hello"] (-build-message-hello params)))
+
+
+;; Main entry point to the service
+(defn router [id params]
+  (let [proto-message (-message-builder id params)]
+    (when (= proto-message nil) nil)))

@@ -5,7 +5,9 @@
             [server-proxy-web.views.orwell :as orwell]))
 
 (def app-routes
-  [(GET "/orwell/*" [] orwell/index-page)
+  [(GET "/orwell/router/:message" [message & params]
+        (orwell/router message params))
+   (route/resources "/orwell/resources/")
    (route/not-found "Not found")])
 
 (def app

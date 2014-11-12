@@ -8,7 +8,8 @@
                            [lib-noir "0.9.4" :exclusions [clout]]
                            [ring-server "0.3.1"]
                            [hiccup "1.0.5"]
-                           [org.pingles/protobuf "0.7.3-2.5.0"]]
+                           [org.pingles/protobuf "0.7.3-2.5.0"]
+                           [clojure-zmq "2.0.7-SNAPSHOT"]]
             :ring {:handler server-proxy-web.server/app}
             :plugins [[lein-ring "0.8.13"]
                       [lein-protobuf-cn "0.3.1"]
