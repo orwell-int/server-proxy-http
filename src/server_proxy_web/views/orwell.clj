@@ -12,41 +12,13 @@
 (def proto-goodbye (protobuf/protodef orwell.messages.ServerGame$Goodbye))
 (def proto-welcome (protobuf/protodef orwell.messages.ServerGame$Welcome))
 
-
-;; Hello
-(defn -build-message-hello [map]
-  (if (contains? map :name)
-    (protobuf/protobuf proto-hello
-                       :name (map :name)
-                       :ready (map :ready))
-    nil))
-
-;; Goodbye
-(defn -build-message-goodbye [map]
-  (protobuf/protobuf proto-goodbye))
-
-;; Welcome
-(defn -build-message-welcome [map]
-  (if (and (contains? map :robot)
-           (contains? map :team)
-           (contains? map :id)
-           (contains? map :video-address)
-           (contains? map :video-port))
-    (protobuf/protobuf proto-welcome
-                       :robot (map :robot)
-                       :team (map :team)
-                       :id   (map :id)
-                       :video-address (map :video-address)
-                       :video-port (map :video-port))
-    nil))
-
-
-;; Just a simple router to create the different messages
-(defn -message-builder [id params]
-  (cond [= id "hello"] (-build-message-hello params)))
-
-
 ;; Main entry point to the service
-(defn router [id params]
-  (let [proto-message (-message-builder id params)]
-    (when (= proto-message nil) nil)))
+(defn router
+  [id params]
+  (try
+    (cond (= id "welcome") (protobuf/protobuf proto-welcome params)
+          (= id "hello") (protobuf/protobuf proto-hello params)
+          (= id "goodbye") (protobuf/protobuf proto-goodbye)
+          :else (throw (Throwable. "I do not know how to build that message")))
+    (catch com.google.protobuf.UninitializedMessageException e
+      nil)))

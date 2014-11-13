@@ -5,3 +5,7 @@ pom.xml
 .lein-deps-sum
 .cake
 target/
+.nrepl-port
+.lein-failures
+.lein-plugins
+.lein-repl-history

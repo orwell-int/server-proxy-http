@@ -1,5 +1,5 @@
 (defproject server-proxy-web "0.1.0-SNAPSHOT"
-            :description "FIXME: write this!"
+            :description "HTTP Proxy for Orwell's main project'"
             :dependencies [[org.clojure/clojure "1.5.1"]
                            [org.clojure/tools.macro "0.1.5"]
                            [clout "2.0.0"]
@@ -16,5 +16,9 @@
                       ;; This could probably be moved elsewhere
                       [cider/cider-nrepl "0.8.0-SNAPSHOT"]]
             :proto-path "resources/messages"
+            :min-lein-version "2.0.0"
+            :aliases {"test-all" ^{:doc "Compiles protobuf and runs tests"}
+                      ["do" "clean" ["protobuf"] ["test"]]}
+            :jvm-opts ^:replace []
             :main server-proxy-web.server)
 
