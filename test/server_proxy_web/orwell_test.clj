@@ -8,41 +8,15 @@
 
 ;; Test that the objects built with clj-protobuf are created correctly
 (deftest protobuf-consistency
-  (is (protobuf/protodef? orwell/proto-hello))
-  (is (protobuf/protodef? orwell/proto-goodbye))
-  (is (protobuf/protodef? orwell/proto-welcome)))
+  (is (protobuf/protodef? orwell/def-hello))
+  (is (protobuf/protodef? orwell/def-goodbye))
+  (is (protobuf/protodef? orwell/def-welcome)))
 
-;; Creation of a message is successful
-(deftest simple-hello-message
-  (is (protobuf/protobuf?
-       (orwell/router "hello" {:name "Robot"
-                               :ready true}))))
-;; Fields of a message are set correctly
-(deftest hello-message-fields
-  (let [hello-message (orwell/router "hello" {:name "Robot" :ready true})]
-    (is (= (hello-message :name) "Robot"))
-    (is (= (hello-message :ready) true))))
+;; Conversion from a string to a protodef
+(deftest string-to-protodef-test
+  (is (protobuf/protodef? (orwell/string-to-protodef "hello"))))
 
-;; Correctness of fields
-(deftest hello-null-message
-  (let [hello-message (orwell/router "hello" {:non-name "Robot"})]
-    (is (= nil hello-message))))
-
-;; Optional field, message gets constructed properly with default value of true
-(deftest hello-optional-field
-  (let [hello-message (orwell/router "hello" {:name "Robot"})]
-    (is (not (= nil hello-message)))
-    (is (= true (hello-message :ready)))))
-
-;; Welcome message
-(deftest welcome-message-test
-  (let [welcome-message (orwell/router "welcome" {:robot "Robot"
-                                                  :team :RED
-                                                  :id "id"
-                                                  :video-address "localhost"
-                                                  :video-port 80})]
-    (is (protobuf/protobuf? welcome-message))))
-
-;; Unknown message should throw an exception
-(deftest unkown-message-test
-  (is (thrown? java.lang.Throwable (orwell/router "machine" nil))))
+;; Stupidest test ever!
+(deftest is-message-for-us?-test
+  (is (= true (orwell/is-message-for-us? "Clorwell 1 2")))
+  (is (= false (orwell/is-message-for-us? "Machin 1 2"))))
