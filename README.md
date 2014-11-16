@@ -30,8 +30,8 @@ $ lein test-all
 ```
 
 
-If everything is ok, provided that you have a running instance of the
-Server's game, for example:
+If everything is ok you can start sending messages to the server, provided that you have
+a running instance of it.
 
 ```bash
 $ lein ring server-headless 9090
