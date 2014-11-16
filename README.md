@@ -4,18 +4,54 @@ A proxy for Orwell's systems written in Clojure.
 
 ## Usage
 
-Provided that you have leiningen, Clojure and a working JVM installed, you
-can just:
+Before installing the server you need to install the LibZMQ runtime and the JZMQ library:
+```bash
+$ apt-get install libzmq3-dev
+$ git clone http://github.com/zeromq/jzmq.git jzmq-build
+$ cd jzmq-build
+$ ./autogen.sh
+$ ./configure --prefix=/opt/jzmq
+$ make
+$ make install
+```
+
+After that, we need to patch the protobuf definitions in order to have the Reflection
+activated
+```bash
+$ git submodule update --init
+$ cd resources/messages
+$ patch -p1 < ../../messages.patch
+```
+
+Check that the tests are passing by running the following command in the project's root
+```bash
+$ lein deps
+$ lein test-all
+```
+
+
+If everything is ok, provided that you have a running instance of the
+Server's game, for example:
 
 ```bash
-lein deps
-lein ring server-headless 8080
+$ lein ring server-headless 9090
+$ curl http://localhost:9090/orwell/router/Hello?name=Damien
+{"tag":"Welcome",
+ "message":[{
+    "robot":"dandi",
+    "team":"red",
+    "id":"robot_0",
+    "video-address":
+    "localhost",
+    "video-port":147808239}]}
 ```
+
 
 ## License
 
 FreeBSD license
-```licence
+
+```license
 Copyright (c) 2014, Orwell development group.
 All rights reserved.
 

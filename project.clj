@@ -2,6 +2,7 @@
             :description "HTTP Proxy for Orwell's main project'"
             :dependencies [[org.clojure/clojure "1.5.1"]
                            [org.clojure/tools.macro "0.1.5"]
+                           [org.clojure/data.json "0.2.5"]
                            [clout "2.0.0"]
                            [compojure "1.2.1"]
                            ;; We need version 2 of clout

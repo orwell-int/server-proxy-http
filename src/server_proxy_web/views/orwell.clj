@@ -2,6 +2,7 @@
   (:use [hiccup.core :as hiccup]
         [flatland.protobuf.core :as protobuf]
         [org.zeromq.clojure :as zmq]
+        [clojure.data.json :as json :only [write-str]]
         [clojure.java.io :as io]
         [byte-streams]
         [clojure.string :only [split]]))
@@ -59,8 +60,7 @@
   [bytes]
   (let [parts (split bytes #" ")
         stream (to-input-stream (last parts))]
-    (if (not (= 3 (count parts))) nil)
-    (if (not (= nil (last parts)))
+    (if (= 3 (count parts))
       [(first (rest parts))
        (protobuf/protobuf-load-stream (string-to-protodef (first (rest parts))) stream)])))
 
@@ -82,7 +82,7 @@
     (loop [message (bytes-to-string (zmq/recv socket))
            x limit]
       (println x)
-      (if (= x 0) nil
+      (if (= x 0) ["Unable to retrieve a message" {}]
           (if (is-message-for-us? message)
             (message-to-protobuf message)
             (recur (bytes-to-string (zmq/recv socket)) (dec x)))))))
@@ -103,6 +103,5 @@
       (let [message-def (string-to-protodef id)
             message (protobuf/protobuf message-def params)]
         (.toString (send-protobuf-to-server id message)))
-      (catch com.google.protobuf.UninitializedMessageException e
-        nil))
-    @ret-value))
+      (catch com.google.protobuf.UninitializedMessageException e nil))
+    (json/write-str {:tag (first @ret-value) :message (rest @ret-value)})))
