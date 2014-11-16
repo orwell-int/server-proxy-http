@@ -1,8 +1,9 @@
 (ns server-proxy-web.views.orwell
   (:use [hiccup.core :as hiccup]
+        [hiccup.page :as page]
         [flatland.protobuf.core :as protobuf]
         [org.zeromq.clojure :as zmq]
-        [clojure.data.json :as json :only [write-str]]
+        [clojure.data.json :as json :only [write-str read-str read-json]]
         [clojure.java.io :as io]
         [byte-streams]
         [clojure.string :only [split]]))
@@ -30,7 +31,6 @@
 (def pull-server-address "tcp://localhost:9000")
 (def loop-running true)
 (def message-received false)
-
 
 ;; Handy conversion functions
 (defn string-to-bytes [s] (.getBytes s))
@@ -105,3 +105,22 @@
         (.toString (send-protobuf-to-server id message)))
       (catch com.google.protobuf.UninitializedMessageException e nil))
     (json/write-str {:tag (first @ret-value) :message (rest @ret-value)})))
+
+(defn router-html
+  "This is the same as the normal router, except that it gives an HTML result"
+  [message params]
+  (let [protobuf (json/read-json (router message params))
+        message-identity (map identity (first (protobuf :message)))]
+    (page/html5
+     [:head [:title "Orwell Router | Message Debug"]
+      (page/include-css "/orwell/resources/css/simple.css")]
+     [:body
+      [:div#container
+       [:div#header [:h1 "Orwell Router | Message Debug"]]
+       [:div#content
+        [:h2 "Conversation"]
+        [:p [:strong message] " --server--> "
+         [:strong (protobuf :tag)]]
+        [:table#parameters
+         [:tr [:th "Key"] [:th "Value"]]
+         (map (fn [x] [:tr [:td.key (first x)] [:td.value (last x)]]) message-identity)]]]])))

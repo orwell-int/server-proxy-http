@@ -5,6 +5,7 @@
                            [org.clojure/data.json "0.2.5"]
                            [clout "2.0.0"]
                            [compojure "1.2.1"]
+                           [org.immutant/immutant-web "1.1.4"]
                            ;; We need version 2 of clout
                            [lib-noir "0.9.4" :exclusions [clout]]
                            [ring-server "0.3.1"]
