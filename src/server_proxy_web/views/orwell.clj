@@ -16,12 +16,6 @@
 (def zmq-context (zmq/make-context 1))
 (def client-name "Clorwell")
 
-;; Server's address
-(def push-server-address "tcp://localhost:9001")
-(def pull-server-address "tcp://localhost:9000")
-(def loop-running true)
-(def message-received false)
-
 (defn print-string-list
   "Print a list of strings, mainly a debug function"
   [list]
@@ -41,7 +35,8 @@
   callback, if one is set"
   [limit]
   (println "Running subscriber")
-  (let [socket (zmq/make-socket zmq-context zmq/+sub+)]
+  (let [socket (zmq/make-socket zmq-context zmq/+sub+)
+        pull-server-address "tcp://localhost:9000"]
     (.subscribe socket (messages/string-to-bytes ""))
     (zmq/connect socket pull-server-address)
     (loop [message (messages/bytes-to-string (zmq/recv socket))
@@ -56,7 +51,8 @@
   "This function sends a protobuf to the server and receives a protobuf back"
   [message-id protobuf]
   (let [socket (zmq/make-socket zmq-context ZMQ/PUSH)
-        message (str client-name " " message-id " " (messages/build-zmq-from-message protobuf))]
+        message (str client-name " " message-id " " (messages/build-zmq-from-message protobuf))
+        push-server-address "tcp://localhost:9001"]
     (zmq/connect socket push-server-address)
     (zmq/send- socket (string-to-bytes message))))
 
