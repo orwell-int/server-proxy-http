@@ -18,7 +18,7 @@
    [:body
     [:div#container
      [:div#header [:h1 "Orwell Router | Admin Interface"]]
-     [:form#main {:action "/orwell/admin/" :method "post"}
+     [:form#main {:action "/admin/" :method "post"}
       [:input.command {:type "text"
                        :name "command"
                        :size "40"
@@ -27,7 +27,7 @@
      (if (or response error)
        [:div#response [:h3.response "The server answers"]
         (if response
-          [:code response])
+          [:pre [:code response]])
         (if error
           "An error occured " error)])]]))
 

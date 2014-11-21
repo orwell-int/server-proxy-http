@@ -85,3 +85,18 @@
         [:table#parameters
          [:tr [:th "Key"] [:th "Value"]]
          (map (fn [x] [:tr [:td.key (first x)] [:td.value (last x)]]) message-identity)]]]])))
+
+(defn wrapper
+  [message params]
+  (println params)
+  (let [cgi (first params)
+        html (cgi :html)]
+    (println html)
+    (if (= html "true")
+      (router-html message cgi)
+      (router message cgi))))
+
+  ;; (if (and (not (= nil (params :hello)))
+  ;;          (= (params :html)) "true")
+  ;;   (router message params)
+  ;;   (router-html message params)))

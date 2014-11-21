@@ -108,10 +108,11 @@ div#response
 h3.response
 {
   text-align: center;
+  text-decoration: underline;
 }
 
 div#response code
 {
-  font-size: 1.5em;
+  font-size: 1.1em;
   padding: 4px;
 }

@@ -41,4 +41,4 @@
 (defn build-zmq-from-message
   "This routine builds a ZMQ bytes from a protobuf"
   [protobuf]
-  (bytes-to-string protobuf/protobuf-dump protobuf))
+  (bytes-to-string (protobuf/protobuf-dump protobuf)))
