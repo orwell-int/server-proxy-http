@@ -13,6 +13,7 @@
                            [org.pingles/protobuf "0.7.3-2.5.0"]
                            [org.clojars.mikejs/clojure-zmq "2.0.7-SNAPSHOT"]
                            [byte-streams "0.2.0-alpha4"]
+                           [ring-serve "0.1.2"]
                            [org.zeromq/jzmq "3.1.0"]]
             :native-deps "/opt/jzmq/lib/"
             :ring {:handler server-proxy-web.server/app}

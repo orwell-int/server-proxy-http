@@ -35,7 +35,7 @@ a running instance of it.
 
 ```bash
 $ lein ring server-headless 9090
-$ curl http://localhost:9090/orwell/router/Hello?name=Damien
+$ curl http://localhost:9090/router/Hello?name=Damien
 {"tag":"Welcome",
  "message":[{
     "robot":"dandi",
@@ -45,7 +45,6 @@ $ curl http://localhost:9090/orwell/router/Hello?name=Damien
     "localhost",
     "video-port":147808239}]}
 ```
-
 
 ## License
 

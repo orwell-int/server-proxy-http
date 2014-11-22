@@ -34,14 +34,12 @@
   for each message it receives, it will call a
   callback, if one is set"
   [limit]
-  (println "Running subscriber")
   (let [socket (zmq/make-socket zmq-context zmq/+sub+)
         pull-server-address "tcp://localhost:9000"]
     (.subscribe socket (messages/string-to-bytes ""))
     (zmq/connect socket pull-server-address)
     (loop [message (messages/bytes-to-string (zmq/recv socket))
            x limit]
-      (println x)
       (if (= x 0) ["Unable to retrieve a message" {}]
           (if (is-message-for-us? message)
             (messages/build-message-from-zmq message)
