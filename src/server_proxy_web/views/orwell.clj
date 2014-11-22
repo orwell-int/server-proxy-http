@@ -88,15 +88,7 @@
 
 (defn wrapper
   [message params]
-  (println params)
-  (let [cgi (first params)
-        html (cgi :html)]
-    (println html)
-    (if (= html "true")
-      (router-html message cgi)
-      (router message cgi))))
-
-  ;; (if (and (not (= nil (params :hello)))
-  ;;          (= (params :html)) "true")
-  ;;   (router message params)
-  ;;   (router-html message params)))
+  (let [format (params :format)]
+    (if (= format "html")
+      (router-html message params)
+      (router message params))))

@@ -9,8 +9,7 @@
 
 
 (defroutes app-routes
-  (GET  "/router/html/:message" [message & params] (orwell/router-html message params))
-  (GET  "/router/:message" [message & params] (orwell/router message params))
+  (GET  "/router/:message" [message & params] (orwell/wrapper message params))
   (GET  "/admin/" [] (admin/admin))
   (POST "/admin/" [command] (admin/admin command))
 
