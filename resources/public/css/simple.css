@@ -1,0 +1,118 @@
+#container
+{
+  margin: 0 30px;
+  background: #fff;
+}
+
+#header
+{
+  background: #ccc;
+  padding: 20px;
+  text-align: center;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+#header h1 { margin: 0; }
+
+#navigation
+{
+  float: left;
+  width: 100%;
+  background: #333;
+}
+
+#navigation ul
+{
+  margin: 0;
+  padding: 0;
+}
+
+#navigation ul li
+{
+  list-style-type: none;
+  display: inline;
+}
+
+#navigation li a
+{
+  display: block;
+  float: left;
+  padding: 5px 10px;
+  color: #fff;
+  text-decoration: none;
+  border-right: 1px solid #fff;
+}
+
+#navigation li a:hover { background: #383; }
+
+#content
+{
+  font-family: Helvetica;
+  clear: left;
+  padding: 20px;
+}
+
+table#parameters
+{
+  width: 30%;
+  margin-left: 25%;
+  margin-right: 25%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+}
+
+table#parameters td.key
+{
+  text-align: left;
+}
+
+table#parameters td.value
+{
+  text-align: right;
+}
+
+#content h2
+{
+  color: #000;
+  font-size: 160%;
+  margin: 0 0 .5em;
+}
+
+#footer
+{
+  background: #ccc;
+  text-align: right;
+  padding: 20px;
+  height: 1%;
+}
+
+form#main
+{
+  margin-top: 10px;
+  text-align: left;
+}
+
+div#response
+{
+  margin-top: 2em;
+  margin-left: 10%;
+  margin-right: 10%;
+  width: 70%;
+  background-color: lightyellow;
+  border: 2px solid black;
+}
+
+h3.response
+{
+  text-align: center;
+  text-decoration: underline;
+}
+
+div#response code
+{
+  font-size: 1.1em;
+  padding: 4px;
+}

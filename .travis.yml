@@ -1,0 +1,12 @@
+language: clojure
+install:
+  - cd resources/messages && patch -p1 < ../../messages.patch
+  - sudo apt-get install -qq libzmq3 libzmq3-dbg libzmq3-dev
+  - git clone http://github.com/zeromq/jzmq.git jzmq-build
+  - cd jzmq-build
+  - ./autogen.sh
+  - ./configure --prefix=/opt/jzmq
+  - make
+  - sudo make install
+script: lein test-all
+

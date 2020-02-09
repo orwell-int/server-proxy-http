@@ -1,0 +1,40 @@
+diff --git a/controller.proto b/controller.proto
+index 0b9cbb9..839ceea 100644
+--- a/controller.proto
++++ b/controller.proto
+@@ -1,4 +1,4 @@
+-option optimize_for = LITE_RUNTIME;
++// option optimize_for = LITE_RUNTIME;
+ 
+ package orwell.messages;
+ 
+diff --git a/robot.proto b/robot.proto
+index 350ab0b..f0d5a88 100644
+--- a/robot.proto
++++ b/robot.proto
+@@ -1,4 +1,4 @@
+-option optimize_for = LITE_RUNTIME;
++// option optimize_for = LITE_RUNTIME;
+ 
+ package orwell.messages;
+ 
+diff --git a/server-game.proto b/server-game.proto
+index f5c3ee0..866a9e6 100644
+--- a/server-game.proto
++++ b/server-game.proto
+@@ -1,4 +1,4 @@
+-option optimize_for = LITE_RUNTIME;
++// option optimize_for = LITE_RUNTIME;
+ 
+ package orwell.messages;
+ 
+diff --git a/server-web.proto b/server-web.proto
+index a68cc6c..ccd3621 100644
+--- a/server-web.proto
++++ b/server-web.proto
+@@ -1,4 +1,4 @@
+-option optimize_for = LITE_RUNTIME;
++// option optimize_for = LITE_RUNTIME;
+ 
+ package orwell.messages;
+ 

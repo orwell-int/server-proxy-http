@@ -1,12 +1,21 @@
 (ns server-proxy-web.server
-  (:use [compojure.core]
-        [noir.util.middleware :as mw])
-  (:require [compojure.route :as route]
-            [server-proxy-web.views.orwell :as orwell]))
+  (:require [compojure.core :refer :all]
+            [compojure.route :as route]
+            [compojure.handler :as handler]
+            [server-proxy-web.views.orwell :as orwell]
+            [server-proxy-web.views.admin :as admin]
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]))
 
-(def app-routes
-  [(GET "/orwell/*" [] orwell/index-page)
-   (route/not-found "Not found")])
+
+(defroutes app-routes
+  (GET  "/router/:message" [message & params] (orwell/wrapper message params))
+  (GET  "/admin/" [] (admin/admin))
+  (POST "/admin/" [command] (admin/admin command))
+
+  ;; Default routes
+  (route/resources "/orwell/resources/")
+  (route/not-found "Not found"))
 
 (def app
-  (mw/app-handler app-routes))
+  (handler/site app-routes))
